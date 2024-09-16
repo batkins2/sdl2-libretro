@@ -371,9 +371,10 @@ struct SDL_VideoDevice
         char loader_path[256];
         void *loader_handle;
     } vulkan_config;
-
+    
     /* * * */
     /* Data private to this driver */
+    struct SDL_PrivateVideoData *hidden;
     void *driverdata;
     struct SDL_GLDriverData *gl_data;
     

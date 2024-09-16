@@ -1025,4 +1025,161 @@ SDL_ShowCursor(int toggle)
     return shown;
 }
 
+/* These are global for SDL_eventloop.c */
+int SDL_PrivateMouseMotion(Uint8 buttonstate, int relative, Sint16 x, Sint16 y)
+{
+	int posted;
+	Uint16 X, Y;
+	Sint16 Xrel;
+	Sint16 Yrel;
+
+	/* Default buttonstate is the current one */
+	if ( ! buttonstate ) {
+		// buttonstate = SDL_ButtonState;
+	}
+
+	Xrel = x;
+	Yrel = y;
+	// if ( relative ) {
+	// 	/* Push the cursor around */
+	// 	x = (SDL_MouseX+x);
+	// 	y = (SDL_MouseY+y);
+	// } else {
+		/* Do we need to clip {x,y} ? */
+		// ClipOffset(&x, &y);
+	// }
+
+	/* Mouse coordinates range from 0 - width-1 and 0 - height-1 */
+	if ( x < 0 )
+		X = 0;
+	else
+	// if ( x >= SDL_MouseMaxX )
+	// 	X = SDL_MouseMaxX-1;
+	// else
+		X = (Uint16)x;
+
+	if ( y < 0 )
+		Y = 0;
+	else
+	// if ( y >= SDL_MouseMaxY )
+	// 	Y = SDL_MouseMaxY-1;
+	// else
+		Y = (Uint16)y;
+
+	/* If not relative mode, generate relative motion from clamped X/Y.
+	   This prevents lots of extraneous large delta relative motion when
+	   the screen is windowed mode and the mouse is outside the window.
+	*/
+	if ( ! relative ) {
+		// Xrel = X-SDL_MouseX;
+		// Yrel = Y-SDL_MouseY;
+	}
+
+	/* Drop events that don't change state */
+	if ( ! Xrel && ! Yrel ) {
+#if 0
+printf("Mouse event didn't change state - dropped!\n");
+#endif
+		return(0);
+	}
+
+	/* Update internal mouse state */
+	// SDL_ButtonState = buttonstate;
+	// SDL_MouseX = X;
+	// SDL_MouseY = Y;
+	// SDL_DeltaX += Xrel;
+	// SDL_DeltaY += Yrel;
+    //     SDL_MoveCursor(SDL_MouseX, SDL_MouseY);
+
+	/* Post the event, if desired */
+	posted = 0;
+	// if ( SDL_ProcessEvents[SDL_MOUSEMOTION] == SDL_ENABLE ) {
+	// 	SDL_Event event;
+	// 	SDL_memset(&event, 0, sizeof(event));
+	// 	event.type = SDL_MOUSEMOTION;
+	// 	event.motion.state = buttonstate;
+	// 	event.motion.x = X;
+	// 	event.motion.y = Y;
+	// 	event.motion.xrel = Xrel;
+	// 	event.motion.yrel = Yrel;
+	// 	if ( (SDL_EventOK == NULL) || (*SDL_EventOK)(&event) ) {
+	// 		posted = 1;
+	// 		SDL_PushEvent(&event);
+	// 	}
+	// }
+	return(posted);
+}
+
+int SDL_PrivateMouseButton(Uint8 state, Uint8 button, Sint16 x, Sint16 y)
+{
+	SDL_Event event;
+	int posted;
+	int move_mouse;
+	Uint8 buttonstate;
+
+	SDL_memset(&event, 0, sizeof(event));
+
+	/* Check parameters */
+	// if ( x || y ) {
+	// 	ClipOffset(&x, &y);
+	// 	move_mouse = 1;
+	// 	/* Mouse coordinates range from 0 - width-1 and 0 - height-1 */
+	// 	if ( x < 0 )
+	// 		x = 0;
+	// 	else
+	// 	if ( x >= SDL_MouseMaxX )
+	// 		x = SDL_MouseMaxX-1;
+
+	// 	if ( y < 0 )
+	// 		y = 0;
+	// 	else
+	// 	if ( y >= SDL_MouseMaxY )
+	// 		y = SDL_MouseMaxY-1;
+	// } else {
+	// 	move_mouse = 0;
+	// }
+	// if ( ! x )
+	// 	x = SDL_MouseX;
+	// if ( ! y )
+	// 	y = SDL_MouseY;
+
+	/* Figure out which event to perform */
+	// buttonstate = SDL_ButtonState;
+	switch ( state ) {
+		case SDL_PRESSED:
+			event.type = SDL_MOUSEBUTTONDOWN;
+			buttonstate |= SDL_BUTTON(button);
+			break;
+		case SDL_RELEASED:
+			event.type = SDL_MOUSEBUTTONUP;
+			buttonstate &= ~SDL_BUTTON(button);
+			break;
+		default:
+			/* Invalid state -- bail */
+			return(0);
+	}
+
+	/* Update internal mouse state */
+	// SDL_ButtonState = buttonstate;
+	if ( move_mouse ) {
+		// SDL_MouseX = x;
+		// SDL_MouseY = y;
+		// SDL_MoveCursor(SDL_MouseX, SDL_MouseY);
+	}
+
+	/* Post the event, if desired */
+	posted = 0;
+	// if ( SDL_ProcessEvents[event.type] == SDL_ENABLE ) {
+	// 	event.button.state = state;
+	// 	event.button.button = button;
+	// 	event.button.x = x;
+	// 	event.button.y = y;
+	// 	if ( (SDL_EventOK == NULL) || (*SDL_EventOK)(&event) ) {
+	// 		posted = 1;
+	// 		SDL_PushEvent(&event);
+	// 	}
+	// }
+	return(posted);
+}
+
 /* vi: set ts=4 sw=4 expandtab: */

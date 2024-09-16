@@ -1030,4 +1030,176 @@ SDL_GetKeyFromName(const char *name)
     }
 }
 
+/* These are global for SDL_eventloop.c */
+int SDL_PrivateKeyboard(Uint8 state, SDL_Keysym *keysym)
+{
+	SDL_Event event;
+	int posted, repeatable;
+	Uint16 modstate;
+
+	SDL_memset(&event, 0, sizeof(event));
+
+#if 0
+printf("The '%s' key has been %s\n", SDL_GetKeyName(keysym->sym), 
+				state == SDL_PRESSED ? "pressed" : "released");
+#endif
+	/* Set up the keysym */
+	modstate = (Uint16)SDL_SetModState;
+
+	repeatable = 0;
+
+	if ( state == SDL_PRESSED ) {
+		keysym->mod = modstate;
+		switch (keysym->sym) {
+			case SDLK_UNKNOWN:
+				break;
+			// case SDLK_NUMLOCK:
+			// 	modstate ^= KMOD_NUM;
+			// 	if ( SDL_NoLockKeys & SDL_NLK_NUM )
+			// 		break;
+			// 	if ( ! (modstate&KMOD_NUM) )
+			// 		state = SDL_RELEASED;
+			// 	keysym->mod = (SDLMod)modstate;
+			// 	break;
+			case SDLK_CAPSLOCK:
+				modstate ^= KMOD_CAPS;
+				// if ( SDL_NoLockKeys & SDL_NLK_CAPS )
+				// 	break;
+				if ( ! (modstate&KMOD_CAPS) )
+					state = SDL_RELEASED;
+				keysym->mod = modstate;
+				break;
+			case SDLK_LCTRL:
+				modstate |= KMOD_LCTRL;
+				break;
+			case SDLK_RCTRL:
+				modstate |= KMOD_RCTRL;
+				break;
+			case SDLK_LSHIFT:
+				modstate |= KMOD_LSHIFT;
+				break;
+			case SDLK_RSHIFT:
+				modstate |= KMOD_RSHIFT;
+				break;
+			case SDLK_LALT:
+				modstate |= KMOD_LALT;
+				break;
+			case SDLK_RALT:
+				modstate |= KMOD_RALT;
+				break;
+			// case SDLK_LMETA:
+			// 	modstate |= KMOD_LMETA;
+			// 	break;
+			// case SDLK_RMETA:
+			// 	modstate |= KMOD_RMETA;
+			// 	break;
+			case SDLK_MODE:
+				modstate |= KMOD_MODE;
+				break;
+			default:
+				repeatable = 1;
+				break;
+		}
+	} else {
+		switch (keysym->sym) {
+			case SDLK_UNKNOWN:
+				break;
+			// case SDLK_NUMLOCK:
+			// 	if ( SDL_NoLockKeys & SDL_NLK_NUM )
+			// 		break;
+			// 	/* Only send keydown events */
+			// 	return(0);
+			case SDLK_CAPSLOCK:
+				// if ( SDL_NoLockKeys & SDL_NLK_CAPS )
+				// 	break;
+				/* Only send keydown events */
+				return(0);
+			case SDLK_LCTRL:
+				modstate &= ~KMOD_LCTRL;
+				break;
+			case SDLK_RCTRL:
+				modstate &= ~KMOD_RCTRL;
+				break;
+			case SDLK_LSHIFT:
+				modstate &= ~KMOD_LSHIFT;
+				break;
+			case SDLK_RSHIFT:
+				modstate &= ~KMOD_RSHIFT;
+				break;
+			case SDLK_LALT:
+				modstate &= ~KMOD_LALT;
+				break;
+			case SDLK_RALT:
+				modstate &= ~KMOD_RALT;
+				break;
+			// case SDLK_LMETA:
+			// 	modstate &= ~KMOD_LMETA;
+			// 	break;
+			// case SDLK_RMETA:
+			// 	modstate &= ~KMOD_RMETA;
+			// 	break;
+			case SDLK_MODE:
+				modstate &= ~KMOD_MODE;
+				break;
+			default:
+				break;
+		}
+		keysym->mod = modstate;
+	}
+
+	/* Figure out what type of event this is */
+	switch (state) {
+		case SDL_PRESSED:
+			event.type = SDL_KEYDOWN;
+			break;
+		case SDL_RELEASED:
+			event.type = SDL_KEYUP;
+			/*
+			 * jk 991215 - Added
+			 */
+			// if ( SDL_KeyRepeat.timestamp &&
+			//      SDL_KeyRepeat.evt.key.keysym.sym == keysym->sym ) {
+			// 	SDL_KeyRepeat.timestamp = 0;
+			// }
+			break;
+		default:
+			/* Invalid state -- bail */
+			return(0);
+	}
+
+	if ( keysym->sym != SDLK_UNKNOWN ) {
+		/* Drop events that don't change state */
+// 		if ( SDL_KeyState[keysym->sym] == state ) {
+// #if 0
+// printf("Keyboard event didn't change state - dropped!\n");
+// #endif
+// 			return(0);
+// 		}
+
+		/* Update internal keyboard state */
+		SDL_SetModState(modstate);
+		SDL_Keyboard(state);
+	}
+
+	/* Post the event, if desired */
+	posted = 0;
+	// if ( SDL_PeepEvents[event.type] == SDL_ENABLE ) {
+	// 	event.key.state = state;
+	// 	event.key.keysym = *keysym;
+	// 	/*
+	// 	 * jk 991215 - Added
+	// 	 */
+	// 	if (repeatable && (SDL_KeyRepeat.delay != 0)) {
+	// 		SDL_KeyRepeat.evt = event;
+	// 		SDL_KeyRepeat.firsttime = 1;
+	// 		SDL_KeyRepeat.timestamp=SDL_GetTicks();
+	// 	}
+	// 	if ( (SDL_EventOK == NULL) || SDL_EventOK(&event) ) {
+	// 		posted = 1;
+	// 		SDL_PushEvent(&event);
+	// 	}
+	// }
+	return(posted);
+}
+
 /* vi: set ts=4 sw=4 expandtab: */

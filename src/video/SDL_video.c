@@ -113,7 +113,7 @@ static VideoBootStrap *bootstrap[] = {
     &QNX_bootstrap,
 #endif
 #if SDL_VIDEO_DRIVER_DUMMY
-    &DUMMY_bootstrap,
+	&DUMMY_bootstrap,
 #endif
     NULL
 };
