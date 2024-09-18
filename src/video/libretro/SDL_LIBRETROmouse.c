@@ -122,8 +122,8 @@ void updateMouseWheel(_THIS) {
     int     mouse_wd = libretro_input_state_cb(0, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_WHEELDOWN);
 
     if(mouse_wu || mouse_wd){
-        SDL_PrivateMouseButton(	SDL_PRESSED, mouse_wd?SDL_BUTTON_WHEELDOWN:SDL_BUTTON_WHEELUP, 0, 0);
-        SDL_PrivateMouseButton(	SDL_RELEASED,mouse_wd?SDL_BUTTON_WHEELDOWN:SDL_BUTTON_WHEELUP, 0, 0);
+        // SDL_PrivateMouseButton(	SDL_PRESSED, mouse_wd?SDL_BUTTON_WHEELDOWN:SDL_BUTTON_WHEELUP, 0, 0);
+        // SDL_PrivateMouseButton(	SDL_RELEASED,mouse_wd?SDL_BUTTON_WHEELDOWN:SDL_BUTTON_WHEELUP, 0, 0);
     }
 	
    // SDL_SendMouseWheel(window, mouse->tilt, mouse->wheel);

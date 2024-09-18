@@ -37,8 +37,8 @@ extern retro_input_state_t libretro_input_state_cb;
 */
 
 #define RETROMOD(a,i) {\
-        SDL_keysym sym;\
-        memset(&sym, 0, sizeof(SDL_keysym));\
+        SDL_Keysym sym;\
+        memset(&sym, 0, sizeof(SDL_Keysym));\
         sym.scancode=i;\
         sym.sym=i;\
         SDL_PrivateKeyboard(a ? SDL_PRESSED : SDL_RELEASED, &sym);\

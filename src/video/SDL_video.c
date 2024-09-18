@@ -1383,7 +1383,7 @@ SDL_CreateWindow(const char *title, int x, int y, int w, int h, Uint32 flags)
 #endif
     if (flags & SDL_WINDOW_OPENGL) {
         if (!_this->GL_CreateContext) {
-            SDL_SetError("No OpenGL support in video driver");
+            SDL_SetError("No OpenGL support in video driver (1)");
             return NULL;
         }
         if (SDL_GL_LoadLibrary(NULL) < 0) {

@@ -386,6 +386,33 @@ struct SDL_VideoDevice
     struct SDL_PrivateGLESData *gles_data;
 #endif
 
+    SDL_Rect (*ListModes) (_THIS);
+    SDL_Surface (*SetVideoMode) (_THIS);
+    void (*CreateYUVOverlay) (_THIS);
+    int (*SetColors) (_THIS);
+    void (*UpdateRects) (_THIS);
+    void (*AllocHWSurface) (_THIS);
+    void (*CheckHWBlit) (_THIS);
+    void (*FillHWRect) (_THIS);
+    void (*SetHWColorKey) (_THIS);
+    void (*SetHWAlpha) (_THIS);
+    int (*LockHWSurface) (_THIS);
+    void (*UnlockHWSurface) (_THIS);
+    void (*FlipHWSurface) (_THIS);
+    void (*FreeHWSurface) (_THIS);
+    void (*SetCaption) (_THIS);
+    void (*SetIcon) (_THIS);
+    void (*IconifyWindow) (_THIS);
+    void (*GrabInput) (_THIS);
+    void (*GetWMInfo) (_THIS);
+
+    void (*FreeWMCursor) (_THIS);
+    void (*CreateWMCursor) (_THIS);
+    void (*ShowWMCursor) (_THIS);
+    void (*MoveWMCursor) (_THIS);
+
+    void (*InitOSKeymap) (_THIS);
+
     /* * * */
     /* The function used to dispose of this structure */
     void (*free) (_THIS);

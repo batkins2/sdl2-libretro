@@ -414,43 +414,43 @@ static SDL_VideoDevice *LIBRETRO_CreateDevice(int devindex)
 
 	/* Set the function pointers */
 	device->VideoInit = LIBRETRO_VideoInit;
-	// device->ListModes = LIBRETRO_ListModes;
-	// device->SetVideoMode = LIBRETRO_SetVideoMode;
-	// device->CreateYUVOverlay = NULL;
-	// device->SetColors = LIBRETRO_SetColors;
-	// device->UpdateRects =LIBRETRO_UpdateRects;
+	device->ListModes = LIBRETRO_ListModes;
+	device->SetVideoMode = LIBRETRO_SetVideoMode;
+	device->CreateYUVOverlay = NULL;
+	device->SetColors = LIBRETRO_SetColors;
+	device->UpdateRects =LIBRETRO_UpdateRects;
 	device->VideoQuit = LIBRETRO_VideoQuit;
-	// device->AllocHWSurface = NULL;//LIBRETRO_AllocHWSurface;
-	// device->CheckHWBlit = NULL;//LIBRETRO_CheckHWBlit;
-	// device->FillHWRect = NULL;//LIBRETRO_FillHWRect;
-	// device->SetHWColorKey = NULL;//LIBRETRO_SetHWColorKey;
-	// device->SetHWAlpha = NULL;//LIBRETRO_SetHWAlpha;
-	// device->LockHWSurface = LIBRETRO_LockHWSurface;
-	// device->UnlockHWSurface = LIBRETRO_UnlockHWSurface;
-	// device->FlipHWSurface = NULL;//LIBRETRO_FlipHWSurface;
-	// device->FreeHWSurface = LIBRETRO_FreeHWSurface;
-	// device->SetCaption = NULL;
-	// device->SetIcon = NULL;
-	// device->IconifyWindow = NULL;
-	// device->GrabInput = NULL;
-	// device->GetWMInfo = NULL;
+	device->AllocHWSurface = NULL;//LIBRETRO_AllocHWSurface;
+	device->CheckHWBlit = NULL;//LIBRETRO_CheckHWBlit;
+	device->FillHWRect = NULL;//LIBRETRO_FillHWRect;
+	device->SetHWColorKey = NULL;//LIBRETRO_SetHWColorKey;
+	device->SetHWAlpha = NULL;//LIBRETRO_SetHWAlpha;
+	device->LockHWSurface = LIBRETRO_LockHWSurface;
+	device->UnlockHWSurface = LIBRETRO_UnlockHWSurface;
+	device->FlipHWSurface = NULL;//LIBRETRO_FlipHWSurface;
+	device->FreeHWSurface = LIBRETRO_FreeHWSurface;
+	device->SetCaption = NULL;
+	device->SetIcon = NULL;
+	device->IconifyWindow = NULL;
+	device->GrabInput = NULL;
+	device->GetWMInfo = NULL;
 
-	// device->FreeWMCursor    = NULL;//LIBRETRO_FreeWMCursor;
-	// device->CreateWMCursor  = NULL;//LIBRETRO_CreateWMCursor;
-	// device->ShowWMCursor    = NULL;//LIBRETRO_ShowWMCursor;
-	// device->MoveWMCursor = NULL;//LIBRETRO_CURSOR_Move;
+	device->FreeWMCursor    = NULL;//LIBRETRO_FreeWMCursor;
+	device->CreateWMCursor  = NULL;//LIBRETRO_CreateWMCursor;
+	device->ShowWMCursor    = NULL;//LIBRETRO_ShowWMCursor;
+	device->MoveWMCursor = NULL;//LIBRETRO_CURSOR_Move;
 
-	// device->InitOSKeymap = LIBRETRO_InitOSKeymap;
+	device->InitOSKeymap = LIBRETRO_InitOSKeymap;
 	device->PumpEvents = LIBRETRO_PumpEvents;
 
-//	device->info.blit_hw=1;
+	// device->info.blit_hw=1;
 
 	device->free = LIBRETRO_DeleteDevice;
        
 	return device;
 } 
 
-VideoBootStrap DUMMY_bootstrap = {
+VideoBootStrap LIBRETRO_bootstrap = {
 	"LIBRETROvideo", "LIBRETRO Video",
 	LIBRETRO_Available, LIBRETRO_CreateDevice
 };
@@ -464,16 +464,31 @@ int LIBRETRO_VideoInit(_THIS, SDL_PixelFormat *vformat)
 
 	/* Determine the screen depth (use default 8-bit depth) */
 	/* we change this during the SDL_SetVideoMode implementation... */
-    //     vformat->BitsPerPixel = 32;
-    //     vformat->BytesPerPixel = 4;
+        // vformat->BitsPerPixel = 32;
+        // vformat->BytesPerPixel = 4;
 
 	// vformat->Amask = 0xff000000;
 	// vformat->Rmask = 0x00ff0000;
 	// vformat->Gmask = 0x0000ff00;
 	// vformat->Bmask = 0x000000ff;
 
+	SDL_DisplayMode mode;
+    //FIXME FIX FOR MORE RESOLUTIONS
+    /* Use a fake 32-bpp desktop mode */
+    mode.format = SDL_PIXELFORMAT_RGB888;
+    mode.w = 1024;
+    mode.h = 768;
+    mode.refresh_rate = 0;
+    mode.driverdata = NULL;
+    if (SDL_AddBasicVideoDisplay(&mode) < 0) {
+        return -1;
+    }
+
+    // SDL_zero(mode);
+    // SDL_AddDisplayMode(&_THIS->displays[0], &mode);
+
 //	LIBRETRO_InitMouse(this);
-	// LIBRETRO_InitKeyboard(this);
+	LIBRETRO_InitKeyboard(this);
 
 	/* We're done! */
 	return(0);
