@@ -1,0 +1,1 @@
+/home/brian/libretro-chailovemod/vendor/SDL_image/include/SDL_image.h
