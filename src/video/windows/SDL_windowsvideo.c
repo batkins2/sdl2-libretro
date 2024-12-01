@@ -135,18 +135,18 @@ WIN_CreateDevice(int devindex)
     device->GetDisplayDPI = WIN_GetDisplayDPI;
     device->GetDisplayModes = WIN_GetDisplayModes;
     device->SetDisplayMode = WIN_SetDisplayMode;
-    device->PumpEvents = WIN_PumpEvents;
+    // device->PumpEvents = WIN_PumpEvents;
 
     device->CreateSDLWindow = WIN_CreateWindow;
     device->CreateSDLWindowFrom = WIN_CreateWindowFrom;
-    device->SetWindowTitle = WIN_SetWindowTitle;
+    // device->SetWindowTitle = WIN_SetWindowTitle;
     device->SetWindowIcon = WIN_SetWindowIcon;
     device->SetWindowPosition = WIN_SetWindowPosition;
     device->SetWindowSize = WIN_SetWindowSize;
     device->SetWindowOpacity = WIN_SetWindowOpacity;
-    device->ShowWindow = WIN_ShowWindow;
+    // device->ShowWindow = WIN_ShowWindow;
     device->HideWindow = WIN_HideWindow;
-    device->RaiseWindow = WIN_RaiseWindow;
+    // device->RaiseWindow = WIN_RaiseWindow;
     device->MaximizeWindow = WIN_MaximizeWindow;
     device->MinimizeWindow = WIN_MinimizeWindow;
     device->RestoreWindow = WIN_RestoreWindow;
@@ -178,7 +178,7 @@ WIN_CreateDevice(int devindex)
     device->GL_GetSwapInterval = WIN_GL_GetSwapInterval;
     device->GL_SwapWindow = WIN_GL_SwapWindow;
     device->GL_DeleteContext = WIN_GL_DeleteContext;
-#elif SDL_VIDEO_OPENGL_EGL        
+#elif SDL_VIDEO_OPENGL_EGL
     /* Use EGL based functions */
     device->GL_LoadLibrary = WIN_GLES_LoadLibrary;
     device->GL_GetProcAddress = WIN_GLES_GetProcAddress;
@@ -243,7 +243,7 @@ WIN_VideoQuit(_THIS)
 #define D3D_DEBUG_INFO
 #include <d3d9.h>
 
-SDL_bool 
+SDL_bool
 D3D_LoadDLL(void **pD3DDLL, IDirect3D9 **pDirect3D9Interface)
 {
     *pD3DDLL = SDL_LoadObject("D3D9.DLL");

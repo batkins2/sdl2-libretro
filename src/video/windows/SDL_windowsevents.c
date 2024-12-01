@@ -435,7 +435,7 @@ WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
                         data->focus_click_pending |= SDL_BUTTON_X2MASK;
                     }
                 }
-                
+
                 SDL_SendWindowEvent(data->window, SDL_WINDOWEVENT_SHOWN, 0, 0);
                 if (SDL_GetKeyboardFocus() != data->window) {
                     SDL_SetKeyboardFocus(data->window);
@@ -1021,7 +1021,7 @@ WIN_PumpEvents(_THIS)
 
             /* Always translate the message in case it's a non-SDL window (e.g. with Qt integration) */
             TranslateMessage(&msg);
-            DispatchMessage(&msg);
+            // DispatchMessage(&msg);
 
             /* Make sure we don't busy loop here forever if there are lots of events coming in */
             if (SDL_TICKS_PASSED(msg.time, start_ticks)) {

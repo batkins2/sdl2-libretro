@@ -162,7 +162,7 @@ typedef unsigned long uintptr_t;
 #define SDL_HAPTIC_DISABLED 1
 
 /* Enable the stub shared object loader (src/loadso/dummy/\*.c) */
-#define SDL_LOADSO_DISABLED 1
+#define SDL_LOADSO_WINDOWS 1
 
 /* Enable the stub thread support (src/thread/generic/\*.c) */
 //#define SDL_THREADS_DISABLED    1
@@ -187,7 +187,10 @@ typedef unsigned long uintptr_t;
 #endif
 
 /* Enable the dummy video driver (src/video/dummy/\*.c) */
-#define SDL_VIDEO_DRIVER_DUMMY  1
+#define SDL_VIDEO_DRIVER_WINDOWS  1
+#define SDL_VIDEO_OPENGL_WGL 1
+#define SDL_DISABLE_WINDOWS_IME  1
+#define GLAD_USE_SDL  1
 
 /* Enable the dummy filesystem driver (src/filesystem/dummy/\*.c) */
 #define SDL_FILESYSTEM_DUMMY  1

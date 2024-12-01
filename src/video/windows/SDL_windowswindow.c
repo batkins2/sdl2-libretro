@@ -135,10 +135,10 @@ WIN_SetWindowPositionInternal(_THIS, SDL_Window * window, UINT flags)
         top = HWND_NOTOPMOST;
     }
 
-    WIN_AdjustWindowRect(window, &x, &y, &w, &h, SDL_TRUE);    
+    WIN_AdjustWindowRect(window, &x, &y, &w, &h, SDL_TRUE);
 
     data->expected_resize = SDL_TRUE;
-    SetWindowPos(hwnd, top, x, y, w, h, flags);
+    // SetWindowPos(hwnd, top, x, y, w, h, flags);
     data->expected_resize = SDL_FALSE;
 }
 
@@ -202,7 +202,7 @@ SetupWindowData(_THIS, SDL_Window * window, HWND hwnd, HWND parent, SDL_bool cre
 
                 /* Figure out what the window area will be */
                 WIN_AdjustWindowRect(window, &x, &y, &w, &h, SDL_TRUE);
-                SetWindowPos(hwnd, HWND_NOTOPMOST, x, y, w, h, SWP_NOCOPYBITS | SWP_NOZORDER | SWP_NOACTIVATE);
+                // SetWindowPos(hwnd, HWND_NOTOPMOST, x, y, w, h, SWP_NOCOPYBITS | SWP_NOZORDER | SWP_NOACTIVATE);
             } else {
                 window->w = w;
                 window->h = h;
@@ -271,7 +271,7 @@ SetupWindowData(_THIS, SDL_Window * window, HWND hwnd, HWND parent, SDL_bool cre
     }
 
     /* Enable dropping files */
-    DragAcceptFiles(hwnd, TRUE);
+    // DragAcceptFiles(hwnd, TRUE);
 
     data->initializing = SDL_FALSE;
 
@@ -316,7 +316,7 @@ WIN_CreateWindow(_THIS, SDL_Window * window)
     }
 
     // Inform Windows of the frame change so we can respond to WM_NCCALCSIZE
-    SetWindowPos(hwnd, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
+    // SetWindowPos(hwnd, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
 
     if (!(window->flags & SDL_WINDOW_OPENGL)) {
         return 0;
@@ -337,7 +337,7 @@ WIN_CreateWindow(_THIS, SDL_Window * window)
         return 0;
 #else
         return SDL_SetError("Could not create GLES window surface (EGL support not configured)");
-#endif /* SDL_VIDEO_OPENGL_EGL */ 
+#endif /* SDL_VIDEO_OPENGL_EGL */
     }
 #endif /* SDL_VIDEO_OPENGL_ES2 */
 
@@ -483,7 +483,7 @@ void
 WIN_ShowWindow(_THIS, SDL_Window * window)
 {
     HWND hwnd = ((SDL_WindowData *) window->driverdata)->hwnd;
-    ShowWindow(hwnd, SW_SHOW);
+    // ShowWindow(hwnd, SW_SHOW);
 }
 
 void
@@ -497,7 +497,7 @@ void
 WIN_RaiseWindow(_THIS, SDL_Window * window)
 {
     HWND hwnd = ((SDL_WindowData *) window->driverdata)->hwnd;
-    SetForegroundWindow(hwnd);
+    // SetForegroundWindow(hwnd);
 }
 
 void
@@ -613,7 +613,7 @@ WIN_SetWindowFullscreen(_THIS, SDL_Window * window, SDL_VideoDisplay * display, 
     }
     SetWindowLong(hwnd, GWL_STYLE, style);
     data->expected_resize = SDL_TRUE;
-    SetWindowPos(hwnd, top, x, y, w, h, SWP_NOCOPYBITS | SWP_NOACTIVATE);
+    // SetWindowPos(hwnd, top, x, y, w, h, SWP_NOCOPYBITS | SWP_NOACTIVATE);
     data->expected_resize = SDL_FALSE;
 }
 
