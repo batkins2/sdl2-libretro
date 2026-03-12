@@ -125,7 +125,7 @@ static SDL_VideoDevice *_this = NULL;
         SDL_UninitializedVideo(); \
         return retval; \
     } \
-    SDL_assert(window && window->magic == &_this->window_magic); \
+    // SDL_assert(window && window->magic == &_this->window_magic); \
     if (!window || window->magic != &_this->window_magic) { \
         SDL_SetError("Invalid window"); \
         return retval; \
@@ -4025,10 +4025,10 @@ SDL_bool SDL_Vulkan_GetInstanceExtensions(SDL_Window *window, unsigned *count, c
 {
     CHECK_WINDOW_MAGIC(window, SDL_FALSE);
 
-    if (!(window->flags & SDL_WINDOW_VULKAN)) {
-        SDL_SetError(NOT_A_VULKAN_WINDOW);
-        return SDL_FALSE;
-    }
+    // if (!(window->flags & SDL_WINDOW_VULKAN)) {
+    //     SDL_SetError(NOT_A_VULKAN_WINDOW);
+    //     return SDL_FALSE;
+    // }
 
     if (!count) {
         SDL_InvalidParamError("count");

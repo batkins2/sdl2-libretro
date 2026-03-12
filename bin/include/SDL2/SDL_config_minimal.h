@@ -188,7 +188,8 @@ typedef unsigned long uintptr_t;
 
 /* Enable the dummy video driver (src/video/dummy/\*.c) */
 #define SDL_VIDEO_DRIVER_WINDOWS  1
-#define SDL_VIDEO_OPENGL_WGL 1
+// #define SDL_VIDEO_OPENGL_WGL 1
+#define SDL_VIDEO_VULKAN 1
 #define SDL_DISABLE_WINDOWS_IME  1
 #define GLAD_USE_SDL  1
 
